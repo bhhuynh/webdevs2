@@ -5,22 +5,27 @@
   <title>jQuery.parseXML demo</title>
   <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
   <style>
-    #rt152W {
-      padding:15px;
-      border: 2px solid black;
-      text-align:center;
+    #Westbound {
+      border:2px solid black;
+      background-color:red;
     }
-  </style>
+    #Eastbound {  border: 2px solid black;
+    background-color:blue;
+    }
+    #Northbound { border: 2px solid black;
+    background-color:purple; }
+    #Southbound { border: 2px solid black;
+    background-color:green; }
+    </style>
 </head>
 <body>
   <h1>Bus Routes</h1>
   <p> Bus Routes Listed: X49, 49, 49B (only North), and 152. I listed 49b because I know a numerous amount of students that take the 49B bus route to continue their travels home.</p>
-<div id = "rt152W"> </div>
-<div id = "rt152E"></div>
-<div id = "rt49N"></div>
-<div id = "rt49S"></div>
-<div id = "rtX49S"></div>
-<div id = "rtX49N"></div>
+<div id = "Westbound"> </div>
+<div id = "Eastbound"></div>
+<div id = "Northbound"></div>
+<div id = "Southbound"></div>
+
 
  
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -47,13 +52,14 @@
            
              
               $.each(data["bustime-response"]["prd"], function(i,v) {
-                var html = "Route #" + v.rt + "<br>" + 
+                $("#" + v.rtdir).append(
+                 "Route #" + v.rt + "<br>" + 
                 "Route Direction: " + v.rtdir + "<br>" + 
                 "Route Prediction Time: " + v.prdtm + "<br>"
              + "Minutes left until the bus comes: " + v.prdctdn + "<br>" + 
               "Delay: " + v.dly + "<br>" +
-              "Timestamp: " + v.tmstmp + "<br>";
-                  $("#rt152W").append(html);
+              "Timestamp: " + v.tmstmp + "<br>");
+               
                 
               })
 
