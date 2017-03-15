@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>NYT Article Search</title>
+        <style>
+            p, h1 {font-family: helvetica;}
+            p {font-size:1.5em;line-height:1.5em; margin-left: 24px;}
+            pre {font-size: 2em;}
+            
+            div {
+                background-color:gray; 
+                border: 1px solid black; 
+                border-radius: 6px;
+                min-height:75px;
+                padding:15px;
+            }
+
+        </style>
+    </head>
+    <body>
+    <h1>NYT Article Search</h1>
+    
+    <!-- div for instructions and form -->
+    <div id="form">
+        <p>
+            Enter your search for NYT Articles
+    
+           </p>
+        <input id="txtQuery" type="text" placeholder="Enter your search term"></input>
+        <button type="button" id="btnSearch" >Search!</button>
+    </div>
+    
+    <!-- a div to store the results -->
+    <div id="results">
+        
+        
+        
+    </div>
+    
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script>
+        var nytData;
+        
+           $(function(){ 
+               
+               
+         var baseUrl= "https://api.nytimes.com/svc/search/v2/articlesearch.json";    
+         
+         var url= baseUrl + "?api-key=" + "fddae41a129e42f892169d3466870de5";
+         
+         
+        // console.log(url);
+        
+        $("#btnSearch").on("click", function(){ 
+            $("#results").html("");
+                var searchTerm = $("#txtQuery").val();
+                    var  searchUrl = url + "&q=" + searchTerm;
+                console.log(searchUrl);
+        
+               $.getJSON(searchUrl)
+                  .done (function (data) {
+                       $.each(data.response.docs, function (index, value) {
+                           //console.log(value.snippet);
+                           var html = "<h2>" + (value.headline.print_headline || value.headline.main || "No Headline Found") + "</h2>"
+                           + "<br>" + "<p1>" + value.pub_date + "</p1>" 
+                           + "<br>" + "<p2>" + value.lead_paragraph + "</p2>"
+                           + "<br>" + "<p3>" + value.byline + "</p3>";
+                           $("#results").append(html);
+                       });
+                       //console.log(data);
+                       
+                       nytData = data;
+                       
+        });
+           });
+           });
+    </script>
+    </body>
+</html>
