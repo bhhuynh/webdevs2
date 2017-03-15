@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Simple JSON Example</title>
+    <style>
+        div {background-color: red;
+            border: 5px solid black;
+            border-radius: 6px;
+        }
+        p,
+        h1 {
+            font-family: helvetica;
+        }
+        
+        p {
+            font-size: 1.5em;
+            line-height: 1.5em;
+            margin-left: 24px;
+        }
+        
+        pre {
+            font-size: 2em;
+        }
+    </style>
+</head>
+<h1>Ben Huynh's Food Inspection Data</h1>
+<body>
+ 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script>
+        /*
+                                            This script retrieves food inspection data for zip 60618
+                                            for the 4th quarter of 2016 from the 
+                                            City of Chicago Data Portal
+                                            
+                                            It stores the returned results in a variable named inspections.
+                                            
+                                            This script doesn't update the DOM.
+                                        
+                                        
+                                        */
+        //  variable to hold the returned data
+        var inspections;
+
+        // base URL to the food inspections data
+        var inspectionsBaseURL = 'https://data.cityofchicago.org/resource/cwig-ma7x.json';
+
+        // optional filters we're appending - date range and zip
+        var filters = '?$where=inspection_date%20between%20%272016-10-01T00:00:00%27%20and%20%272017-01-01T00:00:00%27%20and%20zip=60618';
+
+        // full URL
+        var inspectionsUrl = inspectionsBaseURL + filters;
+
+        console.log(inspectionsUrl);
+
+        $(
+            // jQuery command to retrieve json data
+
+
+            $.getJSON(inspectionsUrl)
+            .done(function(data) {
+                // TODO:  add script to add data to the DOM
+
+                // loop through the records
+                $.each(data,
+                    function(index, value) {
+                        var html = 
+                        "<div class="
+                        +"<center>"
+                        +"<h2 style=color:blue;>"
+                        +value.dba_name
+                        
+                        + "</h2>"
+                        +"<h3 style=color:green>"
+                        +value.results
+                        +"</h3>"
+                        +"<h5 style=color:purple>"
+                        + value.address
+                        + 
+                        +"</h5>"
+                        +"<h6 style=color:black>"
+                        + value.inspection_date
+                        +"</h6>"
+                        + "</center>"
+                        +"</div>";
+                        $("body").append(html)
+
+
+                    }
+                )
+
+
+
+
+            })
+
+
+        )
+    </script>
+</body>
+
+</html>
