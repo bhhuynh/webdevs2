@@ -58,7 +58,7 @@
             <br>
 
 <select id="select">
-    <option id= "ARSON">ARSON</option>
+
     <option id="ASSAULT">ASSAULT</option>
     <option id="BATTERY">BATTERY</option>
     <option id="BURGLARY">BURGLARY</option>
@@ -66,22 +66,17 @@
     <option id ="CRIMINAL DAMAGE">CRIMINAL DAMAGE</option>
     <option id ="CRIMINAL TRESPASS">CRIMINAL TRESPASS</option>
     <option id ="CRIM SEXUAL ASSAULT">CRIMINAL SEXUAL ASSAULT</option>
-    <option id ="DECEPTIVE PRACTICE">DECEPTIVE PRACTICE</option>
     <option id ="DOMESTIC VIOLENCE">DOMESTIC VIOLENCE</option>
     <option id ="GAMBLING">GAMBLING</option>
     <option id ="HOMICIDE">HOMICIDE</option>
     <option id ="HUMAN TRAFFICKING">HUMAN TRAFFICKING</option>
     <option id ="INTERFERENCE WITH PUBLIC OFFICER">INTERFERENCE WITH PUBLIC OFFICER</option>
-    <option id ="INTIMIDATION">INTIMIDATION</option>
     <option id ="KIDNAPPING">KIDNAPPING</option>
     <option id ="LIQUOR LAW VIOLATION">LIQUOR LAW VIOLATION</option>
     <option id ="MOTOR VEHICLE THEFT">MOTOR VEHICLE THEFT</option>
-    <option id ="NON-CRIMINAL">NON-CRIMINAL</option>
     <option id="NARCOTICS">NARCOTICS</option>
-    <option id="OBSCENITY">OBSCENITY</option>
     <option id="OFFENSE INVOLVING CHILDREN">OFFENSE INVOLVING CHILDREN</option>
     <option id="OTHER NARCOTIC VIOLATION">OTHER NARCOTIC VIOLATION</option>
-    <option id="OTHER OFFENSE">OTHER OFFENSE</option>
     <option id="PROSTITUTION">PROSTITUTION</option>
     <option id="PUBLIC PEACE VIOLATION">PUBLIC PEACE VIOLATION</option>
     <option id="RITUALISM">RITUALISM</option>
@@ -92,26 +87,6 @@
     <option id="WEAPONS VIOLATION">WEAPONS VIOLATION</option>
 </select>
 
-<select id="year">
-    <option disabled>Year</option>
-    <option>2017</option>
-    <option>2016</option>
-    <option>2015</option>
-    <option>2014</option>
-    <option>2013</option>
-    <option>2012</option>
-    <option>2011</option>
-    <option>2010</option>
-    <option>2009</option>
-    <option>2008</option>
-    <option>2007</option>
-    <option>2006</option>
-    <option>2005</option>
-    <option>2004</option>
-    <option>2003</option>
-    <option>2002</option>
-    <option>2001</option>
-</select>
 <select id="comm">
     <option disabled>Neighborhood</option>
     <option value="1">Rogers Park</option>
@@ -193,9 +168,28 @@
     <option value="77">Edgewater</option>
 </select>
 
+<select id="year">
+    <option disabled>Year</option>
+    <option>2017</option>
+    <option>2016</option>
+    <option>2015</option>
+    <option>2014</option>
+    <option>2013</option>
+    <option>2012</option>
+    <option>2011</option>
+    <option>2010</option>
+    <option>2009</option>
+    <option>2008</option>
+    <option>2007</option>
+    <option>2006</option>
+    <option>2005</option>
+    <option>2004</option>
+    <option>2003</option>
+    <option>2002</option>
+    <option>2001</option>
+</select>
 
-
-<select id="number">
+<select id="numb">
     <option disabled>Number Displayed</option>
    <option>25</option>
    <option>50</option>
@@ -272,21 +266,19 @@
                             function(index, value) {
                                  
                               
-                                if (value.longitude === undefined) {}
-                                else{
+
 
 
                                 $("#results").append("Number of records returned: " + data.length + "<br><hr>");
 
 
-                                var d = new Date(value.date);
-                        value.date = d.toDateString() + "  " + d.toLocaleTimeString();
+                              
                                 
                             
                                 var html =
                                 
                                 "<tr>"+
-                                    "<td>"+ value.id+ "</td>"+
+                                    "<td>"+ value.id + "</td>"+
                                     "<td>"+ value.primary_type+ "</td>"+
                                     
                                     "<td>"+ value.description+"</td>"+
@@ -305,12 +297,12 @@
                                     ;
                                    
                                 $("#table").append(html)
-                                }
+                                })
                                                         
                             })
                     })
-            })
-        )
+            );
+        
     </script>
 
 </html>
