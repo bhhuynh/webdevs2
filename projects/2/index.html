@@ -1,74 +1,110 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>jQuery.parseXML demo</title>
-  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-  <style>
-    #Westbound {
-      border:2px solid black;
-      background-color:red;
-    }
-    #Eastbound {  border: 2px solid black;
-    background-color:blue;
-    }
-    #Northbound { border: 2px solid black;
-    background-color:purple; }
-    #Southbound { border: 2px solid black;
-    background-color:green; }
-    </style>
-    <link rel="manifest" href="./manifest.json">
-      <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="Weather PWA">
   <link rel="apple-touch-icon" href="images/icons/icon-152x152.png">
-   <meta name="msapplication-TileImage" content="images/icons/icon-144x144.png">
+  <meta name="msapplication-TileImage" content="images/icons/icon-144x144.png">
   <meta name="msapplication-TileColor" content="#2F3BA2">
+  <meta charset="utf-8">
+  <title>CTA Bus Tracker</title>
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
 <body>
-  <h1>Bus Routes</h1>
-  <p> Bus Routes Listed: X49, 49, 49B (only North), and 152. I listed 49b because I know a numerous amount of students that take the 49B bus route to continue their travels home.</p>
-<div id = "Westbound"> </div>
-<div id = "Eastbound"></div>
-<div id = "Northbound"></div>
-<div id = "Southbound"></div>
+  <link href="https://fonts.googleapis.com/css?family=Baloo" rel="stylesheet">
 
+  <h1>Lane Tech Bus Routes</h1>
+ 
+  
+ <div id='menu'>
+      <!--  <label id='select'><input type='checkbox' value='12525'>Addison Eastbound<br>
+        <input type='checkbox' value='152'>Addison Westbound<br>
+        <input type='checkbox' value='49'>Western Southbound<br>
+        <input type='checkbox' value='49'>Western Northbound<br>
+        <input type='checkbox' value='49'>Western Northbound<br>
+        <input type='checkbox' value='49X'>Western Express Southbound<br>
+      <input type='checkbox' value='49X'>Western Express Northbound<br></label>-->
+        
+        <button id='search'> Click here to begin</button>
+ </div> 
 
+ 
+ 
+ 
+ <h2>152- Addison</h2>
+ <table id="152" width='100%'>
+   <tr>
+   
+   <th>Direction</th>
+   <th>Time Left</th>
+   </tr>
+ </table>
+ <h2>49- Western</h2>
+ <table id="49" width='100%'>
+   <tr>
+
+   <th>Direction</th>
+   <th>Time Left</th>
+   </tr>
+ </table>
+ <h2>X49- Western Express</h2>
+ <table id="X49" width='100%'>
+   <tr>
+   
+   <th>Direction</th>
+   <th>Time Left</th>
+   </tr>
+ </table>
  
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
       <script>
-        $(function() {
-          
+   
           
           var apiPassThruUrl = "https://polar-garden-75406.herokuapp.com/apiPassThru.php";
           
           var apiEndpoint = "http://ctabustracker.com/bustime/api/v2/getpredictions";
           
+            $("#search").on("click", function() {
+          
+         
           
           $.ajax({
               url: apiPassThruUrl,
               dataType: "json",
               method: 'GET',
               data: {"apiEndpoint": apiEndpoint,
-                      "key" : "THr2377c4BDQNqNCxNvRwyCcd",
-                      "rt" : "152,49,X49,49B",
-                      "stpid" : "12571,8417,8195,12525,1662",
-                      "format":"json"}
+                      "key" : "a5dkxHtLiq5uJgDTm95zb9QRa",
+                      
+                      "rt" : "152,49,X49",
+                      "stpid": "12527,12569,8417,8195",
+                      "format":"json",
+              }
+
             }).done (function (data) {
               console.log(data);
-           
+              
+  
+        //http://www.ctabustracker.com/bustime/api/v1/getpredictions?key=a5dkxHtLiq5uJgDTm95zb9QRa&rt=152&stpid=12525
+        //http://stackoverflow.com/questions/979256/sorting-an-array-of-javascript-objects
+        //http://http://www.transitchicago.com/assets/1/developer_center/cta_Bus_Tracker_API_Developer_Guide_and_Documentation_20160929.pdf
+  
+  
+        $.each(data["bustime-response"]["prd"], function(i,v) {
+            $("#"+v.rt).empty()})
+            
              
               $.each(data["bustime-response"]["prd"], function(i,v) {
-                $("#" + v.rtdir).append(
-                 "Route #" + v.rt + "<br>" + 
-                "Route Direction: " + v.rtdir + "<br>" + 
-                "Route Prediction Time: " + v.prdtm + "<br>"
-             + "Minutes left until the bus comes: " + v.prdctdn + "<br>" + 
-              "Delay: " + v.dly + "<br>" +
-              "Timestamp: " + v.tmstmp + "<br>");
-               
+                 
+                  $("#"+v.rt).append("<tr>"+
+                  "<td>" + v.rtdir + "</td>"+
+                  "<td>" + v.prdctdn + " minutes</td>"+
+                  "</tr>"
+                  );
+                  
                 
-              })
+              });
 
             });
         });
