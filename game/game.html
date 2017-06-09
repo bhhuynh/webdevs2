@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>repl.it</title>
+    <style>
+   
+            canvas {
+            border: 5px solid black;
+            }
+            #Falco {
+              display:none;
+            }
+                #Stitch{display:none;}
+    #Fox{display:none;}
+          
+    </style>
+  </head>
+  <body>
+    <canvas id="myCanvas" width="1250" height="750">
+    <img id="Falco" src="./Falco_Head_01_(SSBM).png"> 
+    <img id="Fox" src="./foxhead.jpg">
+    <img id="Stitch" src="./stitchface.jpg">
+    <img id ="dreamland" src="./DreamLandSSB.png">
+    </canvas>
+    
+    <script>
+      var livesRemaining = 4;
+      var score = 0;
+      var level = 1;
+      var paused = false;
+      /*
+      
+        main animation loop
+      */
+      var canvas = document.getElementById("myCanvas");
+      var ctx = canvas.getContext("2d");
+      
+      var image = document.getElementById("Falco");
+      var FalcoX = 20
+      var FalcoY = 100
+      
+      var image1 = document.getElementById("Fox")
+      var FoxX = 200
+      var FoxY = Math.floor(Math.random() * 500)
+      
+      var image2 = document.getElementById("Stitch")
+      var StitchX = 200
+      var StitchY = Math.floor(Math.random() * 500)
+      
+      var dreamland = document.getElementById("dreamland")
+      function animate() {
+        // clear canvas
+          ctx.clearRect(0,0,canvas.width,canvas.height); 
+        
+        // draw background
+        ctx.drawImage(dreamland, 0, 0, canvas.width, canvas.height);
+        // draw player
+          ctx.drawImage(image, FalcoX, FalcoY, 100, 100);
+        // draw harm
+          ctx.drawImage(image2, StitchX, StitchY, 100, 100);
+          StitchX = StitchX - 2
+        // check for and handle edge condition
+          if (StitchX < 0)
+          {
+            StitchX = canvas.width;
+            StitchY = Math.floor(Math.random() * 560);
+          }
+        // draw benefit
+           ctx.drawImage(image1, FoxX, FoxY, 100, 100);
+           FoxX = FoxX - 1
+        // check for and handle edge condition
+          if (FoxX < 0 )
+          {
+            FoxX = canvas.width;
+            FoxY = Math.floor(Math.random() * 560);
+          }   
+        // check for harm collision
+          if (FalcoX < StitchX + 35 && FalcoX + 35 > StitchX && FalcoY < StitchY + 35 && FalcoY + 35 > StitchY) 
+          {
+            livesRemaining = livesRemaining - 1
+            StitchX = canvas.width;
+            StitchY = Math.floor(Math.random() * 560);
+          } 
+          if (livesRemaining <= 0)
+          {
+            paused = true;  
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            ctx.font = "40px Arial";
+            ctx.fillStyle = "black";
+            ctx.fillText("Game Over!", 200, 300) 
+          }  
+        // check for benefit collision
+          if (FalcoX < FoxX + 35 && FalcoX + 35 > FoxX && FalcoY < FoxY + 35 && FalcoY + 35 > FoxY) 
+          {
+            score = score + 100
+            cherryX = canvas.width;
+            cherryY = Math.floor(Math.random() * 560); 
+          }
+        // draw text (lives and score)
+          ctx.font = "15px Arial";
+          ctx.fillStyle = "Blue";
+          ctx.fillText("Stocks: " + livesRemaining, 10, 30);
+          
+          ctx.font = "15px Arial";
+          ctx.fillStyle = "Red";
+          ctx.fillText("Score: " + score, 10, 60);
+          
+        //  if the game has not been paused, 
+          if (!paused) {
+            requestAnimationFrame(animate);
+          }
+        
+      }
+          animate();
+          
+      //  event handler for moving player
+      //    use onKeyPress event, and change the player.y value based on the up/down keys
+       document.addEventListener("keydown", move )
+        function move (e) {
+         
+          if (e.keyCode == 40){
+            FalcoY = FalcoY + 3
+          }
+          if (e.keyCode == 38){
+          FalcoY = FalcoY - 3
+          }
+           
+        };
+      
+      
+      
+      
+    </script>
+    
+    
+  </body>
+  </html>
