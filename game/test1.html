@@ -2,30 +2,32 @@
 <html>
   <head>
     <style>
-     #man{display:none}
-     #fire{display:none}
-     #water{display:none}
+     #Falco{display:none}
+     #Stitch{display:none}
+     #Fox{display:none}
      #refresh{display:none}
      #background{display:none}
     </style>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Canvas Game</title>
-     <div id='info'>Welcome to Fireman's Quest!<br>The fireman needs help puttin out the fire!<br>Collect the water, and avoid the fire.<br>Every water gives you ten points, and every 50 points you level up and objects will move faster.<br>Every fire loses you a life. <br> Use the up and down arrow keys to move the fireman.</div>
+    <title>Dreamland</title>
+     <div id='info'>This game is inspired by Melee. The map displayed is Dreamland, your player is Falco. Collect the Fox heads to increase your score. Avoid the stitch faces because they hurt a lot.
+    <br> by Benjamen Huynh
+    <br>Period-1</div>
      <button type='button' id='start'>Hide This</button><br>
-    <canvas id="myCanvas" width="300" height="300" style="border:1px solid #d3d3d3;"></canvas>
+    <canvas id="myCanvas" width="750" height="500"></canvas>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   </head>
   <body>
    
-    <div id='lives'>Lives Remaining: 3</div>
+    <div id='lives'>Stocks: 4</div>
     <div id='score'>Points: 0</div>
     <div id='level'>Level: 1</div>
     <button type='button' id='pause'>Start Game</button>
-    <img id="man" src="http://images.clipartpanda.com/firefighter-clipart-fireman.png" alt="fireman" style="width:50px;height:50px;">
-    <img id="fire" src="http://images.clipartpanda.com/fire-clipart-download-free-fire-graphics-clipart-free-clip-art-images.png" alt='fire' style='width:50px;height:50px'>
-    <img id="water" src="http://img.clipartall.com/water-images-clip-art-clipart-water-clipart-512_737.png" alt="water" style="width:50px;height:50px">
-    <img id='background' src='https://s-media-cache-ak0.pinimg.com/originals/f5/5b/cd/f55bcd72e5c06aa384c086615c1b672a.jpg' alt='firehouse'>
+    <img id="Falco" src="./Falco_Head_01_(SSBM).png">
+    <img id="Stitch" src="./stitchface.jpg">
+    <img id="Fox" src="./foxhead.jpg">
+    <img id='background' src="./DreamLandSSB.png">
     <input type="button" onClick="history.go(0)" value="New Game?" id='refresh'></input>
     <script>
     $("#start").on("click", function() {
@@ -34,7 +36,7 @@
     })    
     
      window.onload = function() {
-      var livesRemaining = 1;
+      var livesRemaining = 4;
       var score = 0;
       var level = 1;
       var paused = true;
@@ -51,21 +53,19 @@
      
       var c = document.getElementById("myCanvas");
       var ctx = c.getContext("2d");
-      var img = document.getElementById("man");
+      var img = document.getElementById("Falco");
       player.x = 0 ;
       player.y = 100;
-      ctx.drawImage(img, player.x, player.y, 50, 50);
-      
-      
-      var harmer = document.getElementById("fire");
+ 
+      var harmer = document.getElementById("Stitch");
       harm.x = 250;
-      harm.y = Math.floor(Math.random() * 275);
-      harm.speed = 1;
+      harm.y = Math.floor(Math.random() * 300);
+      harm.speed = 3;
       
-      var helper = document.getElementById("water");
+      var helper = document.getElementById("Fox");
       benefit.x = 250;
       benefit.y = Math.floor(Math.random() * 275) ;
-      benefit.speed = 1;
+      benefit.speed = 1.5;
       
       
       var background = document.getElementById("background");
@@ -78,9 +78,9 @@
         // draw background
         ctx.drawImage(background, 0, 0, c.width, c.height);
         //  draw player
-        ctx.drawImage(img, player.x, player.y, 50, 50);
+        ctx.drawImage(img, player.x, player.y, 100, 100);
         // draw harm 
-        ctx.drawImage(harmer, harm.x , harm.y, 25, 25);
+        ctx.drawImage(harmer, harm.x , harm.y, 100, 100);
         // check for and handle edge condition
         if (harm.x < 0 )
         {
@@ -96,19 +96,19 @@
         }
         
         // draw benefit
-        ctx.drawImage(helper, benefit.x , benefit.y, 25, 25);
+        ctx.drawImage(helper, benefit.x , benefit.y, 100, 100);
         // check for and handle edge condition
         benefit.x = benefit.x - benefit.speed;
         
         if (benefit.x < 0 )
         {
           benefit.x = c.width;
-          benefit.y = Math.floor(Math.random() * 275);
+          benefit.y = Math.floor(Math.random() * 325);
         }
         // check for benefit collision
         if (Math.abs(benefit.y - player.y) < 35 && player.x == benefit.x )
         {
-        score = score + 10;
+        score = score + 100;
         console.log(score);
         $('#score').empty()
         $('#score').append('Points: ' + score)
@@ -139,7 +139,7 @@
           ctx.font = '50px Arial';
           ctx.fillStyle = "red";
           ctx.textAlign = "center";
-          ctx.fillText("You Lose", c.width/2, 50);
+          ctx.fillText("Game Over!", c.width/2, 50);
           ctx.fillText("Score: "+ score, c.width/2, 150);
           ctx.fillText("Level: " + level, c.width/2, 250); 
           }

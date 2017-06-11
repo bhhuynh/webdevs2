@@ -1,139 +1,190 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html>
   <head>
+    <style>
+     #Falco{display:none}
+     #Stitch{display:none}
+     #Fox{display:none}
+     #refresh{display:none}
+     #background{display:none}
+    </style>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>repl.it</title>
-    <style>
-   
-            canvas {
-            border: 5px solid black;
-            }
-            #Falco {
-              display:none;
-            }
-                #Stitch{display:none;}
-    #Fox{display:none;}
-          
-    </style>
+    <title>Dreamland</title>
+     <div id='info'>This game is inspired by Melee. The map displayed is Dreamland, your player is Falco. Collect the Fox heads to increase your score. Avoid the stitch faces because they hurt a lot.
+    <br> by Benjamen Huynh
+    <br>Period-1</div>
+     <button type='button' id='start'>Hide This</button><br>
+    <canvas id="myCanvas" width="750" height="500"></canvas>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   </head>
   <body>
-    <canvas id="myCanvas" width="1250" height="750">
-    <img id="Falco" src="./Falco_Head_01_(SSBM).png"> 
-    <img id="Fox" src="./foxhead.jpg">
+   
+    <div id='lives'>Stocks: 4</div>
+    <div id='score'>Points: 0</div>
+    <div id='level'>Level: 1</div>
+    <button type='button' id='pause'>Start Game</button>
+    <img id="Falco" src="./Falco_Head_01_(SSBM).png">
     <img id="Stitch" src="./stitchface.jpg">
-    <img id ="dreamland" src="./DreamLandSSB.png">
-    </canvas>
-    
+    <img id="Fox" src="./foxhead.jpg">
+    <img id='background' src="./DreamLandSSB.png">
+    <input type="button" onClick="history.go(0)" value="New Game?" id='refresh'></input>
     <script>
+    $("#start").on("click", function() {
+    $('#info').hide()
+    $('#start').hide()
+    })    
+    
+     window.onload = function() {
       var livesRemaining = 4;
       var score = 0;
       var level = 1;
-      var paused = false;
+      var paused = true;
+      var player = {x: 0, y: 0, costume: "", speed: 1};
+      var harm = {x: 0, y: 0, costume: "", speed: 1};
+      var benefit = {x: 0, y: 0, costume: "", speed: 1};
       /*
       
         main animation loop
+      
       */
-      var canvas = document.getElementById("myCanvas");
-      var ctx = canvas.getContext("2d");
       
-      var image = document.getElementById("Falco");
-      var FalcoX = 20
-      var FalcoY = 100
       
-      var image1 = document.getElementById("Fox")
-      var FoxX = 200
-      var FoxY = Math.floor(Math.random() * 500)
+     
+      var c = document.getElementById("myCanvas");
+      var ctx = c.getContext("2d");
+      var img = document.getElementById("Falco");
+      player.x = 0 ;
+      player.y = 100;
+ 
+      var harmer = document.getElementById("Stitch");
+      harm.x = 250;
+      harm.y = Math.floor(Math.random() * 300);
+      harm.speed = 3;
       
-      var image2 = document.getElementById("Stitch")
-      var StitchX = 200
-      var StitchY = Math.floor(Math.random() * 500)
+      var helper = document.getElementById("Fox");
+      benefit.x = 250;
+      benefit.y = Math.floor(Math.random() * 275) ;
+      benefit.speed = 1.5;
       
-      var dreamland = document.getElementById("dreamland")
+      
+      var background = document.getElementById("background");
+      
       function animate() {
-        // clear canvas
-          ctx.clearRect(0,0,canvas.width,canvas.height); 
         
+        ctx.clearRect(0,0,c.width,c.height);
+        // update harm and benefit x coordinates
+        harm.x = harm.x - harm.speed;
         // draw background
-        ctx.drawImage(dreamland, 0, 0, canvas.width, canvas.height);
-        // draw player
-          ctx.drawImage(image, FalcoX, FalcoY, 100, 100);
-        // draw harm
-          ctx.drawImage(image2, StitchX, StitchY, 100, 100);
-          StitchX = StitchX - 2
+        ctx.drawImage(background, 0, 0, c.width, c.height);
+        //  draw player
+        ctx.drawImage(img, player.x, player.y, 100, 100);
+        // draw harm 
+        ctx.drawImage(harmer, harm.x , harm.y, 100, 100);
         // check for and handle edge condition
-          if (StitchX < 0)
-          {
-            StitchX = canvas.width;
-            StitchY = Math.floor(Math.random() * 560);
-          }
-        // draw benefit
-           ctx.drawImage(image1, FoxX, FoxY, 100, 100);
-           FoxX = FoxX - 1
-        // check for and handle edge condition
-          if (FoxX < 0 )
-          {
-            FoxX = canvas.width;
-            FoxY = Math.floor(Math.random() * 560);
-          }   
-        // check for harm collision
-          if (FalcoX < StitchX + 35 && FalcoX + 35 > StitchX && FalcoY < StitchY + 35 && FalcoY + 35 > StitchY) 
-          {
-            livesRemaining = livesRemaining - 1
-            StitchX = canvas.width;
-            StitchY = Math.floor(Math.random() * 560);
-          } 
-          if (livesRemaining <= 0)
-          {
-            paused = true;  
-            ctx.clearRect(0,0,canvas.width,canvas.height);
-            ctx.font = "40px Arial";
-            ctx.fillStyle = "black";
-            ctx.fillText("Game Over!", 200, 300) 
-          }  
-        // check for benefit collision
-          if (FalcoX < FoxX + 35 && FalcoX + 35 > FoxX && FalcoY < FoxY + 35 && FalcoY + 35 > FoxY) 
-          {
-            score = score + 100
-            cherryX = canvas.width;
-            cherryY = Math.floor(Math.random() * 560); 
-          }
-        // draw text (lives and score)
-          ctx.font = "15px Arial";
-          ctx.fillStyle = "Blue";
-          ctx.fillText("Stocks: " + livesRemaining, 10, 30);
-          
-          ctx.font = "15px Arial";
-          ctx.fillStyle = "Red";
-          ctx.fillText("Score: " + score, 10, 60);
-          
-        //  if the game has not been paused, 
-          if (!paused) {
-            requestAnimationFrame(animate);
-          }
+        if (harm.x < 0 )
+        {
+          harm.x = c.width;
+          harm.y = Math.floor(Math.random() * 275);
+        }
+        // check for and handle harm collision
+        if (Math.abs(harm.y - player.y) < 35 && player.x === harm.x )
+        {
+          livesRemaining = livesRemaining - 1;
+          $('#lives').empty()
+          $('#lives').append('Lives Remaining: ' + livesRemaining)
+        }
         
+        // draw benefit
+        ctx.drawImage(helper, benefit.x , benefit.y, 100, 100);
+        // check for and handle edge condition
+        benefit.x = benefit.x - benefit.speed;
+        
+        if (benefit.x < 0 )
+        {
+          benefit.x = c.width;
+          benefit.y = Math.floor(Math.random() * 325);
+        }
+        // check for benefit collision
+        if (Math.abs(benefit.y - player.y) < 35 && player.x == benefit.x )
+        {
+        score = score + 100;
+        console.log(score);
+        $('#score').empty()
+        $('#score').append('Points: ' + score)
+        }
+        // draw text (lives and score)
+        if (score == 10 * level)
+        {
+        level = level + 1  ;
+        harm.speed = harm.speed + (level / level / 2);
+        $("#level").empty()
+        $('#level').append("Level: " + level)
+        console.log(harm.speed);
+        console.log(level);
+        }
+        //  if the game has not been paused, 
+        if (paused == false && livesRemaining > 0) {
+          requestAnimationFrame(animate);
+        }
+        if (livesRemaining <= 0) {
+          $('#lives').empty()
+          $('#score').empty()
+          $('#level').empty()
+          $('#refresh').show()
+          $('#info').empty()
+          $('#start').hide()
+          $('#pause').hide()
+          ctx.clearRect(0,0,c.width,c.height);
+          ctx.font = '50px Arial';
+          ctx.fillStyle = "red";
+          ctx.textAlign = "center";
+          ctx.fillText("Game Over!", c.width/2, 50);
+          ctx.fillText("Score: "+ score, c.width/2, 150);
+          ctx.fillText("Level: " + level, c.width/2, 250); 
+          }
+       
       }
-          animate();
-          
-      //  event handler for moving player
-      //    use onKeyPress event, and change the player.y value based on the up/down keys
-       document.addEventListener("keydown", move )
-        function move (e) {
-         
-          if (e.keyCode == 40){
-            FalcoY = FalcoY + 3
+      
+      
+      animate();
+      
+       document.getElementById("pause").onclick = function (){
+          paused = !paused;
+          $('#pause').empty()
+          $('#pause').append('Resume Game')
+          console.log(paused);
+          if (paused == false){
+            requestAnimationFrame(animate);
+            $('#pause').empty()
+            $('#pause').append('Pause Game')
           }
-          if (e.keyCode == 38){
-          FalcoY = FalcoY - 3
-          }
-           
         };
       
       
+       document.addEventListener("keydown", move );
+        function move (e) {
+          
+         
+          if (e.keyCode == 40 && player.y < 250){
+            player.y = player.y + 3 ;
+          }
+          if (e.keyCode == 38 && player.y > 0){
+            player.y = player.y - 3 ;
+          }
+          
+          
+          
+        }
       
+     
+      
+      
+      
+     };
       
     </script>
     
     
   </body>
-  </html>
+</html>
