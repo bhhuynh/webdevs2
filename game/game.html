@@ -158,10 +158,10 @@
         function move (e) {
           
          
-          if (e.keyCode == 40){
+          if (e.keyCode == 40 && player.y < 500){
             player.y = player.y + 3 ;
           }
-          if (e.keyCode == 38){
+          if (e.keyCode == 38 && player.y > 0){
             player.y = player.y - 3 ;
           }
           
