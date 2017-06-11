@@ -114,7 +114,7 @@
         $('#score').append('Points: ' + score)
         }
         // draw text (lives and score)
-        if (score == 10 * level)
+        if (score == 100 * level)
         {
         level = level + 1  ;
         harm.speed = harm.speed + (level / level / 2);
@@ -166,10 +166,10 @@
         function move (e) {
           
          
-          if (e.keyCode == 40 && player.y < 250){
+          if (e.keyCode == 40){
             player.y = player.y + 3 ;
           }
-          if (e.keyCode == 38 && player.y > 0){
+          if (e.keyCode == 38){
             player.y = player.y - 3 ;
           }
           
