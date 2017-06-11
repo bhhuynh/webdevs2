@@ -114,15 +114,7 @@
         $('#score').append('Points: ' + score)
         }
         // draw text (lives and score)
-        if (score == 100 * level)
-        {
-        level = level + 1  ;
-        harm.speed = harm.speed + (level / level / 2);
-        $("#level").empty()
-        $('#level').append("Level: " + level)
-        console.log(harm.speed);
-        console.log(level);
-        }
+     
         //  if the game has not been paused, 
         if (paused == false && livesRemaining > 0) {
           requestAnimationFrame(animate);
