@@ -1,4 +1,4 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
   <head>
     <style>
@@ -11,10 +11,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <title>Dreamland</title>
-     <div id='info'>This game is inspired by Melee. The map displayed is Dreamland, your player is Falco. Collect the Fox heads to increase your score. Avoid the stitch faces because they hurt a lot.
+     <div id='info'>Welcome to Dreamland! This game is inspired by Melee. The map displayed is Dreamland, your player is Falco. Collect the Fox heads to increase your score. Avoid the stitch faces because they hurt a lot.
     <br> by Benjamen Huynh
     <br>Period-1</div>
-     <button type='button' id='start'>Hide This</button><br>
     <canvas id="myCanvas" width="750" height="500"></canvas>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   </head>
@@ -31,7 +30,6 @@
     <input type="button" onClick="history.go(0)" value="New Game?" id='refresh'></input>
     <script>
     $("#start").on("click", function() {
-    $('#info').hide()
     $('#start').hide()
     })    
     
