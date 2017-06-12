@@ -95,20 +95,20 @@
          if (harm2.x < 0 )
         {
           harm2.x = c.width;
-          harm2.y = Math.floor(Math.random() * 275);
+          harm2.y = Math.floor(Math.random() * 350);
         }
         // check for and handle harm collision
         if (Math.abs(harm.y - player.y) < 35 && player.x === harm.x )
         {
           livesRemaining = livesRemaining - 1;
           $('#lives').empty()
-          $('#lives').append('Lives Remaining: ' + livesRemaining)
+          $('#lives').append('Stocks: ' + livesRemaining)
         }
          if (Math.abs(harm2.y - player.y) < 35 && player.x === harm2.x )
         {
           livesRemaining = livesRemaining - 1;
           $('#lives').empty()
-          $('#lives').append('Lives Remaining: ' + livesRemaining)
+          $('#lives').append('Stocks: ' + livesRemaining)
         }
         // draw benefit
         ctx.drawImage(helper, benefit.x , benefit.y, 100, 100);
